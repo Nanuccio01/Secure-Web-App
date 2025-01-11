@@ -17,17 +17,20 @@ import utils.InputSanitizer;
 import utils.KeyManager;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Recupero dei dati dal form
+        
+    	// Recupero dei dati dal form
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
+        
+        // Trasforma la mail tutta in minuscolo
+        email = email.toLowerCase();
 
         // Verifica la validità dell'email
         if (!InputSanitizer.isValidEmail(email)) {
@@ -55,12 +58,12 @@ public class LoginServlet extends HttpServlet {
             if ("on".equals(rememberMe)) {
                 // Creazione del cookie con crittografia
                 try {
-                    String encryptedEmail = encrypt(email);
+                    String encryptedEmail = encrypt(email); 
                     Cookie rememberMeCookie = new Cookie("rememberMe", encryptedEmail);
-                    rememberMeCookie.setHttpOnly(true);
-                    rememberMeCookie.setSecure(true);
-                    rememberMeCookie.setPath("/");
-                    rememberMeCookie.setMaxAge(7 * 24 * 60 * 60); // Timeout di 7 giorni
+                    rememberMeCookie.setHttpOnly(true); // Protegge il cookie da accessi JavaScript
+                    rememberMeCookie.setSecure(true); // Assicura che il cookie venga inviato solo su HTTPS
+                    rememberMeCookie.setPath("/"); // Disponibile in tutto il sito
+                    rememberMeCookie.setMaxAge(60 * 60 * 24); // Timeout di 1 giorni
                     rememberMeCookie.setComment("SameSite=Strict"); // SameSite=Strict per maggiore sicurezza
 
                     response.addCookie(rememberMeCookie);
@@ -98,12 +101,11 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             // Log dell'errore per il debug del server
-            System.err.println("Errore SQL durante l'autenticazione: " + e.getMessage());
+            System.err.println("SQL error during authentication " + e.getMessage());
             e.printStackTrace();
         }
         return false;
     }
-
 
     private String encrypt(String data) throws Exception {
         SecretKey secretKey = KeyManager.loadSecretKey();

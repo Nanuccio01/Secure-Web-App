@@ -33,7 +33,6 @@
 		<%
 		    }
 		%>
-
         
         <% if (request.getAttribute("successMessage") != null) { %>
 		    <div style="color: green; text-align: center; margin-bottom: 10px;">

@@ -16,7 +16,25 @@
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
     </security-constraint>
-  
+    
+    <filter>
+	    <filter-name>RememberMeFilter</filter-name>
+	    <filter-class>RememberMeFilter</filter-class>
+	</filter>
+	
+<filter-mapping>
+    <filter-name>RememberMeFilter</filter-name>
+    <url-pattern>/home.jsp</url-pattern>
+</filter-mapping>
+<filter-mapping>
+    <filter-name>RememberMeFilter</filter-name>
+    <url-pattern>/viewProposals.jsp</url-pattern>
+</filter-mapping>
+<filter-mapping>
+    <filter-name>RememberMeFilter</filter-name>
+    <url-pattern>/viewSingleProposals.jsp</url-pattern>
+</filter-mapping>
+	
     <!-- Definizione del Servlet Register -->
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
@@ -52,6 +70,42 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
+    
+    <!-- Definizione dell'Upload Servlet -->
+    <servlet>
+	    <servlet-name>UploadProposalServlet</servlet-name>
+	    <servlet-class>UploadProposalServlet</servlet-class>
+	</servlet>
+	
+	<!-- Mapping dell' Upload Servlet -->
+	<servlet-mapping>
+	    <servlet-name>UploadProposalServlet</servlet-name>
+	    <url-pattern>/UploadProposalServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Definizione del View Proposal Servlet -->
+	<servlet>
+	    <servlet-name>ViewProposalServlet</servlet-name>
+	    <servlet-class>ViewProposalServlet</servlet-class>
+	</servlet>
+	
+	<!-- Mapping del View Proposal Servlet -->
+	<servlet-mapping>
+	    <servlet-name>ViewProposalServlet</servlet-name>
+	    <url-pattern>/ViewProposalServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Definizione del Home Servlet -->
+	<servlet>
+	    <servlet-name>CookieServlet</servlet-name>
+	    <servlet-class>CookieServlet</servlet-class>
+	</servlet>
+	
+	<!-- Mapping del Home Servlet -->
+	<servlet-mapping>
+	    <servlet-name>CookieServlet</servlet-name>
+	    <url-pattern>/CookieServlet</url-pattern>
+	</servlet-mapping>
   
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

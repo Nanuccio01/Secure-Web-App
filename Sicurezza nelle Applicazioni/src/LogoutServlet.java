@@ -33,10 +33,8 @@ public class LogoutServlet extends HttpServlet {
         }
 
         // Imposta il messaggio di successo
-        request.setAttribute("successMessage", "Logout effettuato con successo!");
-        
-        // Reindirizza alla pagina di login
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.setAttribute("logoutMessage", "Logout completed succesfully!");
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 }
 

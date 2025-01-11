@@ -10,7 +10,9 @@ import org.mindrot.jbcrypt.BCrypt;
 @MultipartConfig(maxFileSize = 1024 * 1024 * 5) //Limite dimensione delle immagini a 5MB
 
 public class RegisterServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
         // Recupera dati dal form
         String email = request.getParameter("email");
@@ -23,6 +25,9 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
+        
+        // trasforma la mail tutta in minuscolo
+        email = email.toLowerCase();
         
         // Verifica la validità dell'email
         if (!InputSanitizer.isValidEmail(email)) {
@@ -53,10 +58,9 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
-
+        
         // Genera l'hash della password con BCrypt
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-
         
         // Caricamento dell'immagine del profilo
         Part profileImagePart = request.getPart("profileImage");
@@ -112,7 +116,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Errore nella connessione al database: " + e.getMessage());
+            request.setAttribute("error", "Database connection error: " + e.getMessage());
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
